@@ -1,11 +1,10 @@
 package com.example.demo.users;
 
 import com.example.demo.users.model.User;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 @RestController
@@ -13,6 +12,12 @@ import java.util.HashMap;
 public class UserController {
 
     private final HashMap<String, User> users = new HashMap<>();
+    private final UserService service;
+
+    @Autowired
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping("hello")
     public String hello(){
@@ -20,38 +25,28 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<User> getAll(){
-        return users.values();
+    public Iterable<User> getAll(){
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
     public User get(@PathVariable String id){
-        User user = users.get(id);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!!");
-        return user;
+        return service.findById(id);
     }
 
     @PostMapping
-    public User create(@RequestBody User user){
-        users.put(user.getId(), user);
-        return user;
+    public User create(@Validated @RequestBody User user){
+        return service.saveUser(user);
     }
 
-    @PutMapping("/{id}")
-    public User update(@RequestBody User user, @PathVariable String id){
-        User existing = users.get(id);
-        if (existing == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!!");
-        existing.setName(user.getName());
-        existing.setEmail(user.getEmail());
-        existing.setPhone(user.getPhone());
-        return existing;
+    @PutMapping
+    public User update(@Validated @RequestBody User user){
+        return service.updateUser(user);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id){
-        User existing = users.get(id);
-        if (existing == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!!");
-        users.remove(id);
+        service.deleteUser(id);
     }
 
 }
