@@ -37,4 +37,14 @@ public class ItemsController {
         return service.update(item);
     }
 
+    @GetMapping("/name")
+    public List<Item> getByNameSubstring(@RequestParam("substring") String substring) {
+        return service.findByNameSubstring(substring);
+    }
+
+    @GetMapping("/namesql")
+    public List<Item> getByNameSubstringSql(@RequestParam("substring") String substring) {
+        return service.findByNameSubstringSql(substring);
+    }
+
 }

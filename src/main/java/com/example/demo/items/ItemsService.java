@@ -44,4 +44,12 @@ public class ItemsService {
         return repository.save(oldItem);
     }
 
+    public List<Item> findByNameSubstring(String nameSubstring) {
+        return repository.findByNameContains(nameSubstring);
+    }
+
+    public List<Item> findByNameSubstringSql(String nameSubstring) {
+        return repository.findByNameContainsSql(nameSubstring);
+    }
+
 }
