@@ -1,6 +1,7 @@
 package com.example.demo.items;
 
 import com.example.demo.items.model.Item;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public class ItemsController {
 
     private final ItemsService service;
 
+    @Autowired
     public ItemsController(ItemsService service) {
         this.service = service;
     }

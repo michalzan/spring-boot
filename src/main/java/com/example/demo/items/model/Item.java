@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.springframework.lang.NonNull;
 
 @Entity
 public class Item {
@@ -12,7 +11,6 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
 
     @NotBlank(message = "Name cannot be empty!")
     @Size(min = 3, message = "Name should have minimal of 3 characters!")
