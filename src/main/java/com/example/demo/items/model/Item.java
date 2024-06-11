@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.Getter;
 
 @Entity
+@Data
 public class Item {
 
     @Id
@@ -22,48 +25,7 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
-    public Item() {
-    }
-
-    public Item(String id, String name, long amount, Unit unit) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.unit = unit;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
+    @Getter
     public enum Unit {
         PC("pieces"),
         KG("kilograms");
@@ -73,9 +35,6 @@ public class Item {
             this.name = name;
         }
 
-        public String getName() {
-            return name;
-        }
     }
 
 }
