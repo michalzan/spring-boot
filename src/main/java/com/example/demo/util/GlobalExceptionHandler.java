@@ -3,6 +3,7 @@ package com.example.demo.util;
 import com.example.demo.util.model.ErrorResponse;
 import com.example.demo.util.model.ValidationErrorResponse;
 import com.example.demo.util.model.exceptions.EntityNotFoundException;
+import com.example.demo.util.model.exceptions.UnprocessableContentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +23,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(
                 new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage()),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(UnprocessableContentException.class)
+    public ResponseEntity<ErrorResponse> handleUnprocessableContent(UnprocessableContentException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage()),
+                HttpStatus.UNPROCESSABLE_ENTITY
         );
     }
 
