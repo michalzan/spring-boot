@@ -1,9 +1,12 @@
 package com.example.demo.users.model;
 
 import com.example.demo.common.Address;
+import com.example.demo.items.model.Item;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "app_user")
@@ -30,4 +33,12 @@ public class User {
 
     @Embedded
     private Address address;
+
+    @ManyToMany
+    @JoinTable(
+            name = "wishlist",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private List<Item> wishlist;
 }

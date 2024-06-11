@@ -1,5 +1,6 @@
 package com.example.demo.users;
 
+import com.example.demo.users.model.AddToWishlistRequest;
 import com.example.demo.users.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -47,6 +48,11 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id){
         service.deleteUser(id);
+    }
+
+    @PostMapping("/{id}/wishlist")
+    public User addToWishlist(@PathVariable String id, @RequestBody AddToWishlistRequest request) {
+        return service.addToWishlist(id, request.getItemIds());
     }
 
 }

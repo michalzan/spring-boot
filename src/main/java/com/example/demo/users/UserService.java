@@ -1,18 +1,24 @@
 package com.example.demo.users;
 
+import com.example.demo.items.ItemsRepository;
+import com.example.demo.items.model.Item;
 import com.example.demo.users.model.User;
 import com.example.demo.util.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ItemsRepository itemsRepository;
 
     @Autowired
-    public UserService(UserRepository repository){
-        userRepository = repository;
+    public UserService(UserRepository repository, ItemsRepository itemsRepository){
+        this.userRepository = repository;
+        this.itemsRepository = itemsRepository;
     }
 
     public User saveUser(User user){
@@ -42,6 +48,14 @@ public class UserService {
                 () -> new EntityNotFoundException("User not found")
         );
         userRepository.delete(user);
+    }
+
+    public User addToWishlist(String userId, List<String> itemIds) {
+        User user = findById(userId);
+        List<Item> items = itemsRepository.findByIdIn(itemIds);
+
+        user.setWishlist(items);
+        return userRepository.save(user);
     }
 
 }

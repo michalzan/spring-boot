@@ -1,5 +1,7 @@
 package com.example.demo.items.model;
 
+import com.example.demo.users.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +9,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -26,6 +30,10 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private Unit unit;
+
+    @ManyToMany(mappedBy = "wishlist")
+    @JsonBackReference
+    private List<User> wishlistedBy;
 
     @Getter
     public enum Unit {
