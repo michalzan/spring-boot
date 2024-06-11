@@ -8,6 +8,7 @@ import lombok.Data;
 @Entity
 @Table(name = "app_user")
 @Data
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 
     @Id
