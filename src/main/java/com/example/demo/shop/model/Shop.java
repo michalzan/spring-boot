@@ -1,10 +1,8 @@
 package com.example.demo.shop.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.demo.common.Address;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -20,5 +18,8 @@ public class Shop {
     @NotBlank(message = "Name cannot be empty!")
     @Size(min = 3, message = "Name should have minimal of 3 characters!")
     private String name;
+
+    @Embedded
+    private Address address;
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.users.model;
 
+import com.example.demo.common.Address;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -25,4 +26,7 @@ public class User {
             message = "Phone number not valid!"
     )
     private String phone;
+
+    @Embedded
+    private Address address;
 }
