@@ -2,16 +2,16 @@ package com.example.demo.common;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomHealthIndicator implements HealthIndicator {
 
     @Override
     public Health getHealth(boolean includeDetails) {
-        Health health = Health.up().build();
-        if (includeDetails) {
-            health.getDetails().put("externa sluzba", check());
-        }
-        return health;
+        return Health.up()
+                .withDetail("externaSluzba", check())
+                .build();
     }
 
     @Override
