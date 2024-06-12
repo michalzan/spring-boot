@@ -23,8 +23,12 @@ public class ItemsController {
     }
 
     @GetMapping
-    public List<Item> getAll() {
-        return service.getAll();
+    public List<Item> getAll(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return service.getAll(pageNo, pageSize, sortBy);
     }
 
     @PostMapping

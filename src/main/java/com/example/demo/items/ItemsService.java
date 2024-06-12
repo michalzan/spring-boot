@@ -4,8 +4,13 @@ import com.example.demo.items.model.Item;
 import com.example.demo.util.model.exceptions.EntityNotFoundException;
 import com.example.demo.util.model.exceptions.UnprocessableContentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,8 +27,12 @@ public class ItemsService {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found!"));
     }
 
-    public List<Item> getAll() {
-        return repository.findAll();
+    public List<Item> getAll(Integer pageNo, Integer size, String sortBy) {
+        Pageable page = PageRequest.of(pageNo, size, Sort.by(sortBy));
+
+        Page<Item> itemPage = repository.findAll(page);
+
+        return itemPage.getContent();
     }
 
     public Item create(Item item) {
