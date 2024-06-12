@@ -1,10 +1,13 @@
 package com.example.demo.users.model;
 
 import com.example.demo.common.Address;
+import com.example.demo.common.Auditable;
 import com.example.demo.items.model.Item;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
 
@@ -12,7 +15,9 @@ import java.util.List;
 @Table(name = "app_user")
 @Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class User {
+@SQLDelete(sql="UPDATE app_user SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
+public class User extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,4 +46,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
     private List<Item> wishlist;
+
+    private boolean deleted;
 }
