@@ -1,5 +1,6 @@
 package com.example.demo.users;
 
+import com.example.demo.common.AppProperties;
 import com.example.demo.users.model.AddToWishlistRequest;
 import com.example.demo.users.model.User;
 import com.example.demo.util.model.ErrorResponse;
@@ -26,10 +27,12 @@ public class UserController {
 
     private final HashMap<String, User> users = new HashMap<>();
     private final UserService service;
+    private final AppProperties properties;
 
     @Autowired
-    public UserController(UserService service) {
+    public UserController(UserService service, AppProperties properties) {
         this.service = service;
+        this.properties = properties;
     }
 
     @Operation(
@@ -44,7 +47,7 @@ public class UserController {
         logger.log(Level.WARNING, "warning hello world");
         logger.log(Level.SEVERE, "severe hello world");
         logger.log(Level.ALL, "all hello world");
-        return "Hello World";
+        return properties.getAppName() + ": " + properties.getDefaultGreeting();
     }
 
     @GetMapping
