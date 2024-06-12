@@ -10,14 +10,19 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     private final HashMap<String, User> users = new HashMap<>();
     private final UserService service;
@@ -32,6 +37,13 @@ public class UserController {
     )
     @GetMapping("hello")
     public String hello(){
+        logger.log(Level.INFO, "info hello world");
+        logger.log(Level.FINE, "fine hello world");
+        logger.log(Level.FINER, "finer hello world");
+        logger.log(Level.FINEST, "finest hello world");
+        logger.log(Level.WARNING, "warning hello world");
+        logger.log(Level.SEVERE, "severe hello world");
+        logger.log(Level.ALL, "all hello world");
         return "Hello World";
     }
 
