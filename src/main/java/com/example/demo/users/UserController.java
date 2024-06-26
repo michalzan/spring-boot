@@ -1,6 +1,9 @@
 package com.example.demo.users;
 
 import com.example.demo.common.AppProperties;
+import com.example.demo.posts.PostService;
+import com.example.demo.posts.UserPostDto;
+import com.example.demo.posts.UserPostRequest;
 import com.example.demo.users.model.AddToWishlistRequest;
 import com.example.demo.users.model.User;
 import com.example.demo.util.model.ErrorResponse;
@@ -24,14 +27,15 @@ public class UserController {
 
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
-    private final HashMap<String, User> users = new HashMap<>();
     private final UserService service;
     private final AppProperties properties;
+    private final PostService postService;
 
     @Autowired
-    public UserController(UserService service, AppProperties properties) {
+    public UserController(UserService service, PostService postService, AppProperties properties) {
         this.service = service;
         this.properties = properties;
+        this.postService = postService;
     }
 
     @Operation(
@@ -109,6 +113,12 @@ public class UserController {
     @PostMapping("/{id}/wishlist")
     public User addToWishlist(@PathVariable String id, @RequestBody AddToWishlistRequest request) {
         return service.addToWishlist(id, request.getItemIds());
+    }
+
+    @PostMapping("/{id}/post")
+    public UserPostDto createPost(@PathVariable String id, @RequestBody UserPostRequest userPostRequest){
+        User user = service.findById(id);
+        return postService.create(user, userPostRequest.getTitle(), userPostRequest.getBody());
     }
 
 }
