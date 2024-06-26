@@ -9,5 +9,6 @@ public class AppProperties {
 
     private String appName;
     private String defaultGreeting;
+    private String jsonPlaceholderBaseUrl;
 
 }

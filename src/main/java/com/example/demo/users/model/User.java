@@ -51,5 +51,7 @@ public class User extends Auditable {
     @OneToMany(mappedBy = "user")
     private List<UserPostEntity> posts;
 
+    private Long postsApiId;
+
     private boolean deleted;
 }
