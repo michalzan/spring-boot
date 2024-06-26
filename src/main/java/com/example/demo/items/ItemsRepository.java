@@ -14,7 +14,7 @@ public interface ItemsRepository extends JpaRepository<Item, String> {
     Optional<Item> findByName(String name);
     List<Item> findByNameContains(String substring);
 
-    @Query(value="SELECT * FROM item WHERE name like %?1%", nativeQuery = true)
+    @Query(value="SELECT * FROM item WHERE name like '%?1%'", nativeQuery = true)
     List<Item> findByNameContainsSql(String substring);
 
     List<Item> findByIdIn(List<String> ids);
