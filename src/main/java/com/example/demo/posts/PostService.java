@@ -3,6 +3,7 @@ package com.example.demo.posts;
 import com.example.demo.common.AppProperties;
 import com.example.demo.users.UserService;
 import com.example.demo.users.model.User;
+import com.example.demo.util.model.exceptions.ServerError;
 import com.example.demo.util.model.exceptions.UnprocessableContentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,14 +20,12 @@ public class PostService {
     private final RestTemplate restTemplate;
     private final UserPostRepository repository;
     private final AppProperties properties;
-    private final UserService userService;
 
     @Autowired
-    public PostService(RestTemplate restTemplate, UserPostRepository repository, AppProperties properties, UserService userService) {
+    public PostService(RestTemplate restTemplate, UserPostRepository repository, AppProperties properties) {
         this.restTemplate = restTemplate;
         this.repository = repository;
         this.properties = properties;
-        this.userService = userService;
     }
 
     public UserPostDto create(User user, String title, String body) {
@@ -41,7 +40,7 @@ public class PostService {
             throw new UnprocessableContentException("Server returned 4xx status code: " + response.getStatusCode());
         }
         if (response.getStatusCode().is5xxServerError()) {
-            throw new UnprocessableContentException("Server returned 5xx status code: " + response.getStatusCode());
+            throw new ServerError("Server returned 5xx status code: " + response.getStatusCode());
         }
 
         postDto = response.getBody();
@@ -62,7 +61,7 @@ public class PostService {
             throw new UnprocessableContentException("Server returned 4xx status code: " + response.getStatusCode());
         }
         if (response.getStatusCode().is5xxServerError()) {
-            throw new UnprocessableContentException("Server returned 5xx status code: " + response.getStatusCode());
+            throw new ServerError("Server returned 5xx status code: " + response.getStatusCode());
         }
 
         List<Long> postIds = user.getPosts()
