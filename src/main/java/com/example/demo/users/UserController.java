@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,6 +120,12 @@ public class UserController {
     public UserPostDto createPost(@PathVariable String id, @RequestBody UserPostRequest userPostRequest){
         User user = service.findById(id);
         return postService.create(user, userPostRequest.getTitle(), userPostRequest.getBody());
+    }
+
+    @GetMapping("/{id}/post")
+    public List<UserPostDto> getAll(@PathVariable String id) {
+        User user = service.findById(id);
+        return postService.getUserPosts(user);
     }
 
 }
